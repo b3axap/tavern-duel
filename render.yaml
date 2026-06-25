@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: tavern-duel
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: ""
+    startCommand: node server.mjs
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
