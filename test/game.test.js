@@ -52,6 +52,27 @@ test('покупка без золота — ошибка', () => {
   assert.equal(r.ok, false);
 });
 
+test('reorder переставляет борд по новому порядку', () => {
+  const { room, a } = twoPlayerRoom();
+  const p = room.players[a.pid];
+  p.gold = 99;
+  applyAction(room, a.pid, { type: 'buy', uid: p.shop[0].uid });
+  applyAction(room, a.pid, { type: 'buy', uid: p.shop[0].uid });
+  const [u0, u1] = p.board.map((m) => m.uid);
+  const r = applyAction(room, a.pid, { type: 'reorder', order: [u1, u0] });
+  assert.ok(r.ok);
+  assert.deepEqual(p.board.map((m) => m.uid), [u1, u0]);
+});
+
+test('reorder с чужим uid — ошибка', () => {
+  const { room, a } = twoPlayerRoom();
+  const p = room.players[a.pid];
+  p.gold = 99;
+  applyAction(room, a.pid, { type: 'buy', uid: p.shop[0].uid });
+  const r = applyAction(room, a.pid, { type: 'reorder', order: ['нет-такого'] });
+  assert.equal(r.ok, false);
+});
+
 test('реролл меняет лавку и берёт 1 золото', () => {
   const { room, a } = twoPlayerRoom();
   const p = room.players[a.pid];

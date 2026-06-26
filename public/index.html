@@ -3,12 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#1a1410" />
+  <meta name="theme-color" content="#15100b" />
   <title>🍺 Таверна Дуэль</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍺%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
+
+<button id="sound-btn" class="sound-btn" title="Звук">🔊</button>
 
 <!-- ДОМ: главный экран -->
 <section id="screen-home" class="screen">
@@ -48,7 +50,7 @@
 <!-- ИГРА -->
 <section id="screen-game" class="screen hidden">
   <header class="topbar">
-    <div class="hero opp">
+    <div class="hero opp" id="hero-opp">
       <div class="hero-name" id="opp-name">Соперник</div>
       <div class="hero-hp">❤️ <span id="opp-hp">25</span></div>
       <div class="hero-sub"><span id="opp-tier">⭐1</span> · <span id="opp-board">0</span> на борде</div>
@@ -58,7 +60,7 @@
       <div class="turn">Ход <span id="turn-num">1</span></div>
       <div class="timer" id="timer">--</div>
     </div>
-    <div class="hero you">
+    <div class="hero you" id="hero-you">
       <div class="hero-name" id="you-name">Ты</div>
       <div class="hero-hp">❤️ <span id="you-hp">25</span></div>
       <div class="hero-sub gold">💰 <span id="you-gold">3</span></div>
@@ -67,24 +69,25 @@
 
   <!-- Боевая арена (видна в фазе combat) -->
   <div id="arena" class="arena hidden">
-    <div class="arena-board" id="arena-opp"></div>
-    <div class="arena-vs">⚔️</div>
-    <div class="arena-board" id="arena-you"></div>
+    <div class="arena-board opp" id="arena-opp"></div>
+    <div class="arena-vs">⚔ VS ⚔</div>
+    <div class="arena-board you" id="arena-you"></div>
     <div id="arena-banner" class="arena-banner hidden"></div>
   </div>
 
   <!-- Фаза вербовки -->
   <div id="recruit" class="recruit">
     <div class="tavern-bar">
-      <button id="btn-upgrade" class="btn small">Таверна <span id="tier-badge">⭐1</span> · ↑<span id="upgrade-cost">5</span>💰</button>
+      <button id="btn-upgrade" class="btn small">Таверна ⭐1 · ↑5💰</button>
       <button id="btn-reroll" class="btn small">🔄 Реролл 1💰</button>
     </div>
 
-    <div class="zone-label">Лавка <span class="muted">— тап, чтобы купить (3💰)</span></div>
-    <div id="shop" class="row shop"></div>
+    <div class="zone-label">Лавка <span class="muted">— тап купить (3💰)</span></div>
+    <div id="shop" class="row shop" data-empty="лавка пуста"></div>
 
-    <div class="zone-label">Твой борд <span class="muted">— тап, чтобы продать (+1💰)</span></div>
-    <div id="board" class="row board"></div>
+    <div class="zone-label">Твой борд <span class="muted">— тащи: переставить · вниз — продать</span></div>
+    <div id="board" class="row board" data-empty="перетащи миньонов сюда"></div>
+    <div id="sell-zone" class="sell-zone">🗑️ Бросай сюда — продать (+1💰)</div>
 
     <button id="btn-ready" class="btn btn-primary big ready-btn">В БОЙ ⚔️</button>
   </div>
@@ -102,6 +105,7 @@
   </div>
 </section>
 
+<script src="/js/sound.js"></script>
 <script src="/js/app.js"></script>
 </body>
 </html>
